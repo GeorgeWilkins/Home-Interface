@@ -49,7 +49,11 @@ class restRequest {
         
         if( curl_errno($curlRequest) ) {
             
-            $requestResponse = curl_error($curlRequest);
+            $requestResponse = array(
+                
+                'error' => curl_error($curlRequest)
+            
+            );
             
         }
         
