@@ -1,7 +1,7 @@
 # Home-Interface
 A system for controlling home automation and media playback functionality.
 
-> This is an learning venture into object-oriented PHP. It will evolve considerably over time as my understanding improves. It is *not* _recommended_ that you use any of this code, though the license permits this and you are welcome to do so.
+> This is an learning venture into object-oriented PHP. It will evolve considerably over time as my understanding improves. It is **not** _recommended_ that you use any of this code, though the license permits this and you are welcome to do so.
 
 ## Overview
 The exact functionality is to be determined, however the core intent of this project is as follows:
@@ -12,6 +12,8 @@ The exact functionality is to be determined, however the core intent of this pro
 - Integrate with third party APIs for voice recognition and 'concierge' functionality
 
 ## Branches
-*public*: The latest 'stable' version suitable for use by others
-*local*: The current 'working' version used by myself
-*issue__*: Numbered issue branches unlikely to be stable
+**public**: The latest 'stable' version suitable for use by others
+
+**local**: The current 'working' version used by myself
+
+**issue__**: Numbered issue branches unlikely to be stable
