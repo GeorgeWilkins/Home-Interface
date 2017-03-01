@@ -13,7 +13,15 @@ class hueService {
         
         $this -> hueBridge = new hueBridge($bridgePath);
         
-        $this -> hueBridge -> register();
+        if($this -> hueBridge -> register()) {
+            
+            // Party Time
+            
+        } else {
+            
+            // No Disco For You
+            
+        }
     
     }
 

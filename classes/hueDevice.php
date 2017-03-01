@@ -9,6 +9,8 @@ class hueDevice {
     
     protected $devicePath;
     
+    protected $dataPath = 'data/hue.ini';
+    
     public function __construct($devicePath = '') {
 
         $this -> devicePath = $devicePath;
@@ -25,60 +27,57 @@ class hueBridge extends hueDevice {
     
     public function register() {
  
-        // Register User
-        
-        $restRequest = new restRequest(
+        // Check For User
+
+        $userFile = fopen($this -> dataPath, 'w+');
+
+        while(!feof($userFile)) {
             
-            'http://' . $this -> devicePath . '/api',
+            list($bridgePath, $userName) = explode('=', fgets($userFile));
             
-            array('devicetype' => 'Home Interface'),
+            if($bridgePath == $this -> devicePath) {
                 
-            'POST'
-            
-        );
+                $this -> userName = $userName;
+                
+                break;
+                
+            }
 
-        $restResponse = $restRequest -> send();
+        }
 
-        if(isset($restResponse[0]['error']['description'])) {
+        if($this -> userName === null) {
+ 
+            // Register New User
+        
+            $restRequest = new restRequest(
+
+                'http://' . $this -> devicePath . '/api',
+
+                array('devicetype' => 'Home Interface'),
+
+                'POST'
+
+            );
+
+            $restResponse = $restRequest -> send();
+
+            if(isset($restResponse[0]['success']['username'])) {
+
+                $this -> userName = $restResponse[0]['success']['username'];
+                
+                // Store For Future Use
+                
+                fseek($userFile, 0, SEEK_END);
+                
+                fwrite($userFile, $this -> devicePath . '=' . $this -> userName . PHP_EOL);
             
-            echo 'Error: ' . $restResponse[0]['error']['description'];
-            
-            exit;
+            }
             
         }
         
-        if(!isset($restResponse[0]['success']['username'])) {
-            
-            echo 'Error: Bridge did not respond with username';
-            
-            exit;
-            
-        }
+        fclose($userFile);
         
-        $this -> userName = $restResponse[0]['success']['username'];
-echo $this -> userName; exit;
-
-        // Find Devices
-        
-        $restRequest = new restRequest(
-            
-            'http://' . $this -> devicePath . '/api/' . $this -> userName . '/lights',
-            
-            array(),
-                
-            'GET'
-                
-        );
-
-        $restResponse = $restRequest -> send();
-        
-        foreach($restResponse as $lightIdentifier => $lightProperties) {
-            
-            echo $lightIdentifier;
-            
-        }
-        
-        
+        return ($this -> userName !== null);
 
     }
 
