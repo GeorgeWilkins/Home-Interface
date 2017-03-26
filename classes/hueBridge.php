@@ -85,7 +85,7 @@ class hueBridge {
 
             /*
              * 
-             * CREATE ROOM OBJECTS ARRAY (INDEXED BY ID)?
+             * CREATE GROUP OBJECTS ARRAY (INDEXED BY ID)?
              * 
              */
             
@@ -118,7 +118,7 @@ class hueBridge {
 
             /*
              * 
-             * CREATE ROOM OBJECTS ARRAY (INDEXED BY ID)?
+             * CREATE SENSOR OBJECTS ARRAY (INDEXED BY ID)?
              * 
              */
             
