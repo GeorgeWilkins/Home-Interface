@@ -1,9 +1,13 @@
 <?php
 
-    require 'classes/hueService.php';
-    require 'classes/hueDevice.php';
+    // Utilities
+
+    require '../classes/restRequest.php';
+
+    // Philips HUE
     
-    require 'classes/restRequest.php';
+    require '../classes/hueUser.php';
+    require '../classes/hueBridge.php';
 
 //    $userRouter = new userRouter();
     
@@ -21,9 +25,12 @@
     as they communicate with the HUE bridge device rather than my local network
     directly (they're not actually Wifi devices, instead using the Zigbee Light
     Link mesh network).
+     
+    EDIT 19/03/2017: Due to router change, local DNS is no longer available and
+     * I'm back to using IPv4
     
     */
-    
-    $hueService = new hueService('hue.downstairs.local');
+
+    $hueBridge = new hueBridge('192.168.1.50');
 
     

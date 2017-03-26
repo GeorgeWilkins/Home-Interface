@@ -13,7 +13,7 @@ class restRequest {
     
     private $requestMethod;
     
-    public function __construct($requestPath = '', $requestPayload = array(), $requestMethod = 'POST') {
+    public function __construct(string $requestPath = '', array $requestPayload = [], string $requestMethod = 'POST') {
         
         $this -> requestPath = $requestPath;
         
@@ -33,27 +33,31 @@ class restRequest {
         
         curl_setopt($curlRequest, CURLOPT_RETURNTRANSFER, true);
         
+        curl_setopt($curlRequest, CURLOPT_CONNECTTIMEOUT, 5);
+        
+        curl_setopt($curlRequest, CURLOPT_TIMEOUT, 5);
+        
         $encodedPayload = json_encode($this -> requestPayload);
 
         curl_setopt($curlRequest, CURLOPT_POSTFIELDS, $encodedPayload);
         
-        curl_setopt($curlRequest, CURLOPT_HTTPHEADER, array(
+        curl_setopt($curlRequest, CURLOPT_HTTPHEADER, [
             
             'Content-Type: application/json',
             
-            'Content-Length: ' . strlen($encodedPayload))
+            'Content-Length: ' . strlen($encodedPayload)
         
-        );
+        ]);
 
         $requestResponse = curl_exec($curlRequest);
-        
+
         if( curl_errno($curlRequest) ) {
             
-            $requestResponse = array(
+            $requestResponse = [
                 
                 'error' => curl_error($curlRequest)
             
-            );
+            ];
             
         }
         
