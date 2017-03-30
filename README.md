@@ -9,11 +9,12 @@ The exact functionality is to be determined, however the core intent of this pro
 - Integrate and control approximately 30 [Philips Hue](https://developers.meethue.com/documentation/getting-started) devices
 - Integrate and control various security devices (IP cameras and alarm sensors)
 - Integrate and control audio sources (NAS) and outputs (network-connected speakers)
+- Integrate and control the network-connected heating system
 - Integrate with third party APIs for voice recognition and 'concierge' functionality
 
 ## Branches
 **public**: The latest 'stable' version suitable for use by others
 
-**local**: The current 'working' version used by myself
+**local**: The current 'development' version used by myself
 
-**issue__**: Numbered issue branches unlikely to be stable
+**issue__**: Numbered issue branches, unlikely to be stable

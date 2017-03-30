@@ -9,6 +9,8 @@ class hueBridge {
     
     private $hueUser;
     
+    private $hueGroups;
+    
     public $networkAddress;
     
     public $dataPath = '../data/hue.json';
@@ -19,26 +21,22 @@ class hueBridge {
 
         $this -> hueUser = new hueUser($this);
         
-        $hueLights = $this -> enumerateLights();
+        $this -> enumerateGroups();
         
-        $hueGroups = $this -> enumerateGroups();
-        
-        $hueSensors = $this -> enumerateSensors();
-        
-        print_r($hueSensors);
-    
+        $this -> enumerateSensors();
+
     }
     
-    public function enumerateLights() {
-        
+    public function sendCommand(string $requestMethod, string $commandPath, array $extraParameters = []) {
+    
         $restRequest = new restRequest(
 
             'http://' . $this -> networkAddress . '/api/' .
-                        $this -> hueUser -> userIdentifier . '/lights',
+                        $this -> hueUser -> userIdentifier . $commandPath,
 
-            [],
+            $extraParameters,
 
-            'GET'
+            $requestMethod
 
         );
 
@@ -50,82 +48,66 @@ class hueBridge {
 
         } else {
 
-            /*
-             * 
-             * CREATE LIGHT OBJECTS ARRAY (INDEXED BY ID)?
-             * 
-             */
-            
-            return $restResponse;
-
-        }
-        
-    }
-
-    public function enumerateGroups() {
-        
-        $restRequest = new restRequest(
-
-            'http://' . $this -> networkAddress . '/api/' .
-                        $this -> hueUser -> userIdentifier . '/groups',
-
-            [],
-
-            'GET'
-
-        );
-
-        $restResponse = $restRequest -> send();
-
-        if(isset($restResponse['error'])) {
-
-            new hueError($restResponse['error']);
-
-        } else {
-
-            /*
-             * 
-             * CREATE GROUP OBJECTS ARRAY (INDEXED BY ID)?
-             * 
-             */
-            
             return $restResponse;
 
         }
         
     }
     
-    public function enumerateSensors() {
+    private function enumerateGroups() {
         
-        $restRequest = new restRequest(
-
-            'http://' . $this -> networkAddress . '/api/' .
-                        $this -> hueUser -> userIdentifier . '/sensors',
-
-            [],
-
-            'GET'
+        $connectedGroups = $this -> sendCommand(
+                
+            'GET',
+            
+            '/groups'
 
         );
-
-        $restResponse = $restRequest -> send();
-
-        if(isset($restResponse['error'])) {
-
-            new hueError($restResponse['error']);
-
-        } else {
-
-            /*
-             * 
-             * CREATE SENSOR OBJECTS ARRAY (INDEXED BY ID)?
-             * 
-             */
+        
+        $this -> hueGroups = [];
+        
+        foreach($connectedGroups as $groupIdentifier => $groupProperties) {
             
-            return $restResponse;
-
+            $this -> hueGroups[] = new hueGroup($this, $groupIdentifier, $groupProperties);
+            
         }
         
     }
     
+    private function enumerateSensors() {
+        
+        $connectedSensors = $this -> sendCommand(
+                
+            'GET',
+            
+            '/sensors'
+
+        );
+        
+        $this -> hueSensors = [];
+        
+        foreach($connectedSensors as $sensorIdentifier => $sensorProperties) {
+            
+            $this -> hueSensors[] = new hueSensor($this, $sensorIdentifier, $sensorProperties);
+            
+        }
+        
+    }
+    
+    public function getGroups(string $filterName = null) {
+        
+        if(!empty($filterName)) {
+            
+            return array_filter($this -> hueGroups, function($hueGroup) use ($filterName) {
+            
+                return (strpos($hueGroup -> getName(), $filterName) !== false);
+                
+            });
+            
+        }
+        
+        return $this -> hueGroups;
+        
+    }
+
 }
