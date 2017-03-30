@@ -11,11 +11,13 @@ class hueBridge {
     
     private $hueGroups;
     
+    private $hueSensors;
+    
     public $networkAddress;
     
     public $dataPath = '../data/hue.json';
     
-    function __construct(string $networkAddress = '127.0.0.1') {
+    public function __construct(string $networkAddress = '127.0.0.1') {
 
         $this -> networkAddress = $networkAddress;
 

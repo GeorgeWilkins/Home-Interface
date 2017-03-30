@@ -31,7 +31,7 @@ class hueSensor {
         
     ];
     
-    function __construct(hueBridge $hueBridge, int $sensorIdentifier, array $sensorProperties) {
+    public function __construct(hueBridge $hueBridge, int $sensorIdentifier, array $sensorProperties) {
 
         $this -> hueBridge = $hueBridge;
         

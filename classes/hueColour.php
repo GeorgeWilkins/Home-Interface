@@ -17,7 +17,7 @@ class hueColour {
     
     private $y;
     
-    function __construct(int $red = 0, int $green = 0, int $blue = 0) {
+    public function __construct(int $red = 0, int $green = 0, int $blue = 0) {
         
         $this -> red = min(255, max(0, $red));
         

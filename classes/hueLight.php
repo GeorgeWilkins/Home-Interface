@@ -27,7 +27,7 @@ class hueLight {
         
     ];
     
-    function __construct(hueBridge $hueBridge, int $lightIdentifier, array $lightProperties) {
+    public function __construct(hueBridge $hueBridge, int $lightIdentifier, array $lightProperties) {
 
         $this -> hueBridge = $hueBridge;
         

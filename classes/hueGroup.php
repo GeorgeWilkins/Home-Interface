@@ -15,7 +15,7 @@ class hueGroup {
     
     private $hueLights;
     
-    function __construct(hueBridge $hueBridge, int $groupIdentifier, array $groupProperties) {
+    public function __construct(hueBridge $hueBridge, int $groupIdentifier, array $groupProperties) {
 
         $this -> hueBridge = $hueBridge;
         
