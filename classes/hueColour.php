@@ -87,7 +87,7 @@ class hueColour {
     
     public function isBlack() {
         
-        return false;//(($this -> red === 0) and ($this -> green === 0) and ($this -> blue === 0));
+        return (($this -> red === 0) and ($this -> green === 0) and ($this -> blue === 0));
         
     }
 
