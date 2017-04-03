@@ -1,33 +1,26 @@
 <?php
 
-    // Utilities
-
-    require '../classes/restRequest.php';
-
-    // Philips HUE
+    // Load Classes
     
-    require '../classes/hueUser.php';
-    require '../classes/hueColour.php';
-    require '../classes/hueBridge.php';
-    require '../classes/hueGroup.php';
-    require '../classes/hueLight.php';
-    require '../classes/hueSensor.php';
-
-    
+    spl_autoload_register(function ($class) {
+        
+        include '../classes/' . $class . '.php';
+        
+    });
     
     // Initialise Services
     
-    $hueBridge = new hueBridge('192.168.1.50');
+    $bridge = new Hue\Bridge('192.168.1.50');
 
     // List Debugging Information
     
-    foreach($hueBridge -> getGroups() as $hueGroup) {
+    foreach($bridge -> getGroups() as $group) {
         
-        echo $hueGroup -> getName() . "\n";
+        echo $group -> getName() . "\n";
         
-        foreach($hueGroup -> getLights() as $hueLight) {
+        foreach($group -> getLights() as $light) {
             
-            echo $hueLight -> getUniqueIdentifier() . ' (' . $hueLight -> getName() . ' / ' . $hueLight -> getType() . ')' . "\n";
+            echo $light -> getUniqueIdentifier() . ' (' . $light -> getName() . ' / ' . $light -> getType() . ')' . "\n";
             
         }
         
